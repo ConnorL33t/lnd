@@ -3052,28 +3052,16 @@ func (r *rpcServer) DescribeGraph(ctx context.Context,
 func marshalDbEdge(edgeInfo *channeldb.ChannelEdgeInfo,
 	c1, c2 *channeldb.ChannelEdgePolicy) *lnrpc.ChannelEdge {
 
-	var (
-		lastUpdate int64
-	)
-
-	if c2 != nil {
-		lastUpdate = c2.LastUpdate.Unix()
-	}
-	if c1 != nil {
-		lastUpdate = c1.LastUpdate.Unix()
-	}
-
 	edge := &lnrpc.ChannelEdge{
 		ChannelId: edgeInfo.ChannelID,
 		ChanPoint: edgeInfo.ChannelPoint.String(),
-		// TODO(roasbeef): update should be on edge info itself
-		LastUpdate: uint32(lastUpdate),
-		Node1Pub:   hex.EncodeToString(edgeInfo.NodeKey1Bytes[:]),
-		Node2Pub:   hex.EncodeToString(edgeInfo.NodeKey2Bytes[:]),
-		Capacity:   int64(edgeInfo.Capacity),
+		Node1Pub:  hex.EncodeToString(edgeInfo.NodeKey1Bytes[:]),
+		Node2Pub:  hex.EncodeToString(edgeInfo.NodeKey2Bytes[:]),
+		Capacity:  int64(edgeInfo.Capacity),
 	}
 
 	if c1 != nil {
+		edge.Node1LastUpdate = uint32(c1.LastUpdate.Unix())
 		edge.Node1Policy = &lnrpc.RoutingPolicy{
 			TimeLockDelta:    uint32(c1.TimeLockDelta),
 			MinHtlc:          int64(c1.MinHTLC),
@@ -3084,6 +3072,7 @@ func marshalDbEdge(edgeInfo *channeldb.ChannelEdgeInfo,
 	}
 
 	if c2 != nil {
+		edge.Node2LastUpdate = uint32(c2.LastUpdate.Unix())
 		edge.Node2Policy = &lnrpc.RoutingPolicy{
 			TimeLockDelta:    uint32(c2.TimeLockDelta),
 			MinHtlc:          int64(c2.MinHTLC),

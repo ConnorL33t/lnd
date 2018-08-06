@@ -1283,7 +1283,11 @@
         "chan_point": {
           "type": "string"
         },
-        "last_update": {
+        "node1_last_update": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "node2_last_update": {
           "type": "integer",
           "format": "int64"
         },

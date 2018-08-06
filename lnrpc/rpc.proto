@@ -1462,15 +1462,16 @@ message ChannelEdge {
     uint64 channel_id = 1 [json_name = "channel_id"];
     string chan_point = 2 [json_name = "chan_point"];
 
-    uint32 last_update = 3 [json_name = "last_update"];
+    uint32 node1_last_update = 3 [json_name = "node1_last_update"];
+    uint32 node2_last_update = 4 [json_name = "node2_last_update"];
 
-    string node1_pub = 4 [json_name = "node1_pub"];
-    string node2_pub = 5 [json_name = "node2_pub"];
+    string node1_pub = 5 [json_name = "node1_pub"];
+    string node2_pub = 6 [json_name = "node2_pub"];
 
-    int64 capacity = 6 [json_name = "capacity"];
+    int64 capacity = 7 [json_name = "capacity"];
 
-    RoutingPolicy node1_policy = 7 [json_name = "node1_policy"];
-    RoutingPolicy node2_policy = 8 [json_name = "node2_policy"];
+    RoutingPolicy node1_policy = 8 [json_name = "node1_policy"];
+    RoutingPolicy node2_policy = 9 [json_name = "node2_policy"];
 }
 
 message ChannelGraphRequest {
